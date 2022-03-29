@@ -1,17 +1,40 @@
 package com.company;
 
+import java.util.HashMap;
+
 public class Arena {
 
-    public boolean play(int playerMove, int randomMove) {
-        // false -> enemy wins, true -> player wins
-        if (playerMove == 1 && randomMove == 2) {
-            return false;
-        } else if (playerMove == 2 && randomMove == 3) {
-            return false;
-        } else if (playerMove == 3 && randomMove == 1) {
-            return false;
-        } else {
+    private final String playerTwoName;
+    private final String playerOneName;
+    private HashMap<String, Integer> scoreBoard = new HashMap<>();
+
+    public Arena(String playerOneName, String playerTwoName) {
+        this.playerOneName = playerOneName;
+        this.playerTwoName = playerTwoName;
+    }
+
+    public boolean play(int playerOne, int playerTwo) {
+        // false -> playerOne wins, true -> playerTwo
+        if (playerOne == 1 && playerTwo == 2) {
+            int count = scoreBoard.getOrDefault(this.playerTwoName, 0);
+            scoreBoard.put(this.playerTwoName, count + 1);
             return true;
+        } else if (playerOne == 2 && playerTwo == 3) {
+            int count = scoreBoard.getOrDefault(this.playerTwoName, 0);
+            scoreBoard.put(this.playerTwoName, count + 1);
+            return true;
+        } else if (playerOne == 3 && playerTwo == 1) {
+            int count = scoreBoard.getOrDefault(this.playerTwoName, 0);
+            scoreBoard.put(this.playerTwoName, count + 1);
+            return true;
+        } else {
+            int count = scoreBoard.getOrDefault(this.playerOneName, 0);
+            scoreBoard.put(this.playerOneName, count + 1);
+            return false;
         }
+    }
+
+    public void summary() {
+        scoreBoard.forEach((key, value) -> System.out.println(key + " | " + value));
     }
 }
